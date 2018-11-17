@@ -1,10 +1,14 @@
+import os
 from flask import Flask, request, render_template
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(__name__)
 
-engine = create_engine("postgresql://postgres:ingland@localhost/flights")
+database_url = os.environ.get('DATABASE_URL')
+engine = create_engine(database_url)
 db = scoped_session(sessionmaker(bind=engine))
 
 
@@ -55,4 +59,4 @@ def flight(flight_id):
 
 
 if __name__ == '__main__':
-    app.run(host='localhost', port=8000, debug=True)
+    app.run(host='0.0.0.0', port=8000, debug=True)
